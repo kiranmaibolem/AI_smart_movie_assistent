@@ -6,20 +6,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def set_background(image_url):
-    page_bg = f"""
-    <style>
-    .stApp {{
-        background: url("{image_url}") no-repeat center center fixed;
-        background-size: cover;
-    }}
-    </style>
-    """
-    st.markdown(page_bg, unsafe_allow_html=True)
-
-# ✅ Replace with your actual GitHub raw image URL
-set_background("movie-background-collage.jpg")
-
 
 # ✅ Load IMDb Movie Dataset
 @st.cache_data
