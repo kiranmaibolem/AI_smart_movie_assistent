@@ -5,6 +5,24 @@ from textblob import TextBlob
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+
+def set_background(image_url):
+    page_bg = f"""
+    <style>
+    .stApp {{
+        background: url("{image_url}") no-repeat center center fixed;
+        background-size: cover;
+    }}
+    </style>
+    """
+    st.markdown(page_bg, unsafe_allow_html=True)
+
+# ✅ Use a local image (if it's in your project directory)
+# set_background("file_path/image.jpg")
+
+# ✅ Use an online image (recommended for Streamlit Cloud)
+set_background("https://storage.googleapis.com/kaggle-datasets-images/2587299/4416293/715bb18a4917ad2d3e8b9bd678f31d10/dataset-cover.jpg?t=2022-10-29-03-36-49")
+
 # ✅ Load IMDb Movie Dataset
 @st.cache_data
 def load_movie_data():
