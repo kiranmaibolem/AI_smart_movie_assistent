@@ -21,7 +21,7 @@ def set_background(image_url):
 # set_background("file_path/image.jpg")
 
 # ✅ Use an online image (recommended for Streamlit Cloud)
-set_background("https://storage.googleapis.com/kaggle-datasets-images/2587299/4416293/715bb18a4917ad2d3e8b9bd678f31d10/dataset-cover.jpg?t=2022-10-29-03-36-49")
+set_background("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fcinema-background&psig=AOvVaw2yNw8mhz-zU31npn5hecy1&ust=1741265887070000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiRwYb_8osDFQAAAAAdAAAAABAE)
 
 # ✅ Load IMDb Movie Dataset
 @st.cache_data
