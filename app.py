@@ -69,11 +69,11 @@ if st.button("🔎 Search"):
                 # Display movie details in two columns
                 col1, col2 = st.columns([1, 2])
                 with col1:
-                    st.image("https://via.placeholder.com/150", caption=movie_details["names"])  # Placeholder for poster
+                    # st.image("https://via.placeholder.com/150", caption=movie_details["names"])  # Placeholder for poster
                 with col2:
                     st.write(f"**🎬 Title:** {movie_details['names']}")
                     st.write(f"**📅 Year:** {movie_details['date_x']}")
-                    st.write(f"**⭐ IMDb Rating:** {movie_details['score']}")
+                    st.write(f"**⭐ IMDb Score:** {movie_details['score']}")
                     st.write(f"**🎭 Genre:** {movie_details['genre']}")
                     st.write(f"**💰 Budget:** ${movie_details['budget_x']}")
                     st.write(f"**🌍 Country:** {movie_details['country']}")
