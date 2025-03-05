@@ -14,7 +14,7 @@ movies_df = load_movie_data()
 
 # ✅ Function to Get Movie Details
 def get_movie_details(movie_name):
-    movie = movies_df[movies_df["title"].str.contains(movie_name, case=False, na=False)]
+    movie = movies_df[movies_df["names"].str.contains(movie_name, case=False, na=False)]
     if not movie.empty:
         return movie.iloc[0]  # Return first match
     return None
