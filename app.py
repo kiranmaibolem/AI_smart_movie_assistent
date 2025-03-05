@@ -16,14 +16,14 @@ movies_df = load_movie_data()
 def get_movie_details(movie_name):
     movie = movies_df[movies_df["names"].str.contains(movie_name, case=False, na=False)]
     if not movie.empty:
-        return movie.iloc[0]  # Return first match
+        return movie.iloc[0]
     return None
 
-# ✅ Sentiment Analysis on Movie Overview
+# ✅ Sentiment Analysis on Reviews
 def analyze_sentiment(text):
-    return TextBlob(text).sentiment.polarity if pd.notna(text) else 0
+    return TextBlob(text).sentiment.polarity if text else 0
 
-# ✅ Recommend Similar Movies if No Exact Match
+# ✅ Recommend Similar Movies
 def recommend_movies(movie_title, num_recommendations=5):
     vectorizer = TfidfVectorizer(stop_words="english")
     tfidf_matrix = vectorizer.fit_transform(movies_df["overview"].fillna(""))
@@ -38,52 +38,65 @@ def recommend_movies(movie_title, num_recommendations=5):
         return recommended_movies
     return []
 
+# ✅ Custom CSS for UI Styling
+st.markdown("""
+    <style>
+        body { background-color: #f5f5f5; }
+        .main { background-color: white; padding: 20px; border-radius: 10px; }
+        h1 { color: #FF5733; text-align: center; }
+        .stButton>button { background-color: #FF5733; color: white; font-weight: bold; }
+        .stTextInput>div>div>input { border-radius: 10px; padding: 10px; }
+    </style>
+""", unsafe_allow_html=True)
+
 # ✅ Streamlit UI
 st.title("🎬 AI Smart Movie Assistant")
-st.write("Search for a movie and get details, reviews, sentiment analysis, and recommendations!")
+st.subheader("Find movies, analyze reviews & get recommendations!")
 
 # ✅ User Input
-movie_name = st.text_input("Enter a movie name", "")
+movie_name = st.text_input("🔍 Enter a movie name", "")
 
-if st.button("Search"):
-    if movie_name:
-        movie_details = get_movie_details(movie_name)
+if st.button("🔎 Search"):
+    with st.spinner("Fetching movie details..."):
+        if movie_name:
+            movie_details = get_movie_details(movie_name)
 
-        if movie_details is not None:
-            st.subheader("📌 Movie Details")
-            st.write(f"**Title:** {movie_details['names']}")
-            st.write(f"**Release Date:** {movie_details['date_x']}")
-            st.write(f"**IMDb Score:** {movie_details['score']}")
-            st.write(f"**Genre:** {movie_details['genre']}")
-            st.write(f"**Overview:** {movie_details['overview']}")
-            st.write(f"**Crew:** {movie_details['crew']}")
-            st.write(f"**Original Title:** {movie_details['orig_title']}")
-            st.write(f"**Status:** {movie_details['status']}")
-            st.write(f"**Original Language:** {movie_details['orig_lang']}")
-            st.write(f"**Budget:** {movie_details['budget_x']}")
-            st.write(f"**Revenue:** {movie_details['revenue']}")
-            st.write(f"**Country:** {movie_details['country']}")
+            if movie_details is not None:
+                st.success("✅ Movie Found!")
 
-            # ✅ Sentiment Analysis
-            sentiment_score = analyze_sentiment(movie_details["overview"])
-            st.write(f"**Overview Sentiment Score:** {sentiment_score:.2f}")
+                # Display movie details in two columns
+                col1, col2 = st.columns([1, 2])
+                with col1:
+                    st.image("https://via.placeholder.com/150", caption=movie_details["names"])  # Placeholder for poster
+                with col2:
+                    st.write(f"**🎬 Title:** {movie_details['names']}")
+                    st.write(f"**📅 Year:** {movie_details['date_x']}")
+                    st.write(f"**⭐ IMDb Rating:** {movie_details['score']}")
+                    st.write(f"**🎭 Genre:** {movie_details['genre']}")
+                    st.write(f"**💰 Budget:** ${movie_details['budget_x']}")
+                    st.write(f"**🌍 Country:** {movie_details['country']}")
+                    st.write(f"**📜 Overview:** {movie_details['overview']}")
 
-            # ✅ Recommendations
-            similar_movies = recommend_movies(movie_name)
-            if similar_movies:
-                st.subheader("🎥 Similar Movies")
-                st.write(", ".join(similar_movies))
+                # ✅ Sentiment Analysis
+                sentiment_score = analyze_sentiment(movie_details["overview"])
+                st.write(f"**📝 Review Sentiment Score:** {sentiment_score:.2f}")
+
+                # ✅ Recommendations
+                similar_movies = recommend_movies(movie_name)
+                if similar_movies:
+                    st.subheader("🎥 Similar Movies")
+                    st.write(", ".join(similar_movies))
+                else:
+                    st.write("❌ No similar movies found.")
+
             else:
-                st.write("❌ No similar movies found.")
+                st.error("❌ Movie not found! Showing similar movies...")
+                similar_movies = recommend_movies(movie_name)
+                if similar_movies:
+                    st.write("🎥 Recommended Similar Movies:")
+                    st.write(", ".join(similar_movies))
+                else:
+                    st.write("❌ No recommendations available.")
 
         else:
-            st.error("❌ Movie not found! Showing similar movies...")
-            similar_movies = recommend_movies(movie_name)
-            if similar_movies:
-                st.subheader("🎥 Recommended Similar Movies:")
-                st.write(", ".join(similar_movies))
-            else:
-                st.write("❌ No recommendations available.")
-
-    else:
-        st.warning("⚠️ Please enter a movie name.")
+            st.warning("⚠️ Please enter a movie name.")
