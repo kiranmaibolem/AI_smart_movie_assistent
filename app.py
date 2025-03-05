@@ -70,6 +70,7 @@ if st.button("🔎 Search"):
                 col1, col2 = st.columns([1, 2])
                 with col1:
                     # st.image("https://via.placeholder.com/150", caption=movie_details["names"])  # Placeholder for poster
+                    pass
                 with col2:
                     st.write(f"**🎬 Title:** {movie_details['names']}")
                     st.write(f"**📅 Year:** {movie_details['date_x']}")
