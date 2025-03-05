@@ -18,7 +18,7 @@ def set_background(image_url):
     st.markdown(page_bg, unsafe_allow_html=True)
 
 # ✅ Replace with your actual GitHub raw image URL
-set_background("https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/background.jpg")
+set_background("movie-background-collage.jpg")
 
 
 # ✅ Load IMDb Movie Dataset
