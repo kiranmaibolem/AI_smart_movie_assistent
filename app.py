@@ -17,11 +17,9 @@ def set_background(image_url):
     """
     st.markdown(page_bg, unsafe_allow_html=True)
 
-# ✅ Use a local image (if it's in your project directory)
-# set_background("file_path/image.jpg")
+# ✅ Replace with your actual GitHub raw image URL
+set_background("https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/background.jpg")
 
-# ✅ Use an online image (recommended for Streamlit Cloud)
-set_background("movie-background-collage.jpg")
 
 # ✅ Load IMDb Movie Dataset
 @st.cache_data
