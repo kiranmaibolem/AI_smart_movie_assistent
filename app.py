@@ -29,12 +29,12 @@ def recommend_movies(movie_title, num_recommendations=5):
     tfidf_matrix = vectorizer.fit_transform(movies_df["description"].fillna(""))
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
-    idx = movies_df[movies_df["title"].str.contains(movie_title, case=False, na=False)].index
+    idx = movies_df[movies_df["names"].str.contains(movie_title, case=False, na=False)].index
     if not idx.empty:
         idx = idx[0]
         sim_scores = list(enumerate(cosine_sim[idx]))
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:num_recommendations + 1]
-        recommended_movies = [movies_df.iloc[i[0]]["title"] for i in sim_scores]
+        recommended_movies = [movies_df.iloc[i[0]]["names"] for i in sim_scores]
         return recommended_movies
     return []
 
@@ -51,7 +51,7 @@ if st.button("Search"):
 
         if movie_details is not None:
             st.subheader("📌 Movie Details")
-            st.write(f"**Title:** {movie_details['title']}")
+            st.write(f"**Title:** {movie_details['names']}")
             st.write(f"**Year:** {movie_details['year']}")
             st.write(f"**IMDb Rating:** {movie_details['imdb_rating']}")
             st.write(f"**Cast:** {movie_details['cast']}")
@@ -80,4 +80,3 @@ if st.button("Search"):
 
     else:
         st.warning("⚠️ Please enter a movie name.")
-
